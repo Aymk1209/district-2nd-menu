@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json({ message: "Order stored!" }, {
-      status: 200,
+      status: 200}),
       headers: {
         'Access-Control-Allow-Origin': 'https://aymk1209.github.io', // Allow your site
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
