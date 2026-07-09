@@ -45,10 +45,17 @@ export async function POST(req: Request) {
     temperature: 0,
   });
 
-  // Create the SQL Agent
-  const toolkit = new SqlToolkit(db, llm);
-  const systemPrompt = `You are a helpful assistant for a cafe. IMPORTANT: Always use the Indian Rupee symbol (₹) for all prices. Never use dollar signs ($).`;
-  const agent = createSqlAgent(llm, toolkit, { prefix: systemPrompt });
+ // Create the SQL Agent
+const toolkit = new SqlToolkit(db, llm);
+
+const systemPrompt = `
+You are a helpful assistant for District 2nd Cafe.
+IMPORTANT RULES:
+1. Always use the Indian Rupee symbol (₹) for all prices. Never use dollar signs ($).
+2. When a user asks for item characteristics (like spicy, veg, starter, chocolate, etc.), you MUST search the 'tags' column in the 'menu_items' table using the ILIKE operator (e.g., tags ILIKE '%spicy%').
+`;
+
+const agent = createSqlAgent(llm, toolkit, { prefix: systemPrompt });
 
   // Run the agent
   const result = await agent.invoke({ input: prompt });
