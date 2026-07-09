@@ -26,7 +26,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }
+import { sql } from '@vercel/postgres';
+import { NextResponse } from 'next/server';
 
+export async function POST(req: Request) {
+  try {
+    const { itemName, price } = await req.json();
+
+    // Insert the order into the 'orders' table we just created
+    await sql`INSERT INTO orders (item_name, price) VALUES (${itemName}, ${price});`;
+
+    return NextResponse.json({ message: "Order recorded successfully" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to record order" }, { status: 500 });
+  }
+}
 // Crucial: Handle CORS pre-flight requests
 export async function OPTIONS() {
   return new NextResponse(null, {
