@@ -47,7 +47,8 @@ export async function POST(req: Request) {
 
   // Create the SQL Agent
   const toolkit = new SqlToolkit(db, llm);
-  const agent = createSqlAgent(llm, toolkit);
+  const systemPrompt = `You are a helpful assistant for a cafe. IMPORTANT: Always use the Indian Rupee symbol (₹) for all prices. Never use dollar signs ($).`;
+  const agent = createSqlAgent(llm, toolkit, { prefix: systemPrompt });
 
   // Run the agent
   const result = await agent.invoke({ input: prompt });
