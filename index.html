@@ -114,6 +114,7 @@
     </div>
 </div>
 <script>
+    // Function to send order details to the backend
   async function sendOrder(itemName, priceString) {
     // 1. Clean the price (remove '₹' symbol) and convert to a number
     const price = parseFloat(priceString.replace('₹', ''));
